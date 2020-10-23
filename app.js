@@ -83,6 +83,7 @@ async function getEmpDetails() {
             const answers = await inquirer.prompt(engineerQuestions);
             // Create instance of the Engineer class
             let emp = new Engineer(answers.name, answers.id, answers.email, answers.gitHub);
+            console.log("Here is Emp details: " + JSON.stringify(emp));
             // Add to employee array
             employeeArray.push(emp);
         } else {
