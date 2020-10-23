@@ -8,6 +8,7 @@ const util = require("util");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
+const stylesPath = path.join(OUTPUT_DIR, "style.css");
 
 const render = require("./lib/htmlRenderer");
 const writeFileAsync = util.promisify(fs.writeFile);
@@ -126,6 +127,8 @@ function quit() {
     const returnedHTML = render(employeeArray);
     // Call function to write the html file
     fileWrite(returnedHTML);
+    // Read and write the CSS file
+    readWriteCSS();
 }
 
 async function fileWrite(returnedHTML) {
@@ -149,4 +152,20 @@ function ensureDirectoryExistence(filePath) {
     }
     ensureDirectoryExistence(dirname);
     fs.mkdirSync(dirname);
+}
+
+// To add the styles also to the "output directory"
+function readWriteCSS() {
+    fs.readFile('./style.css', function read(err, data) {
+        if (err) {
+            throw err;
+        }
+        const content = data;
+        processFile(content);
+    });
+
+    function processFile(content) {
+        writeFileAsync(stylesPath, content);
+    }
+
 }

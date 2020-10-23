@@ -1,0 +1,25 @@
+.jumbotron {
+    background-color: red;
+    color: white;
+}
+
+.employee-card {
+    margin: 10px;
+    min-width: 30%;
+
+}
+
+.card-header {
+    background-color: blue;
+    color: white;
+}
+
+ .container {
+ /* max-width: 50%; */
+  max-width: 80%;
+ /* width: 50%; */
+ border-right: 1px solid #000;
+ border-left: 1px solid #000;
+ 
+
+} 
