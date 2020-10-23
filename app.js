@@ -4,15 +4,13 @@ const Intern = require("./lib/Intern");
 const inquirer = require("inquirer");
 const path = require("path");
 const fs = require("fs");
+const util = require("util");
 
 const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
-
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
+const writeFileAsync = util.promisify(fs.writeFile);
 
 //To hold an array of objects for the user answers
 const employeeArray = [];
@@ -59,51 +57,49 @@ let typeQ = {
     ]
 }
 
+// Initiate the app and start getting user Input
 console.log("Welcome to the team generator CLI");
 askQuestions();
 
 async function askQuestions() {
     try {
         const answers = await inquirer.prompt(managerQuestions);
+        // First employee will be the manager. Create instance of the manager class.
         let emp = new Manager(answers.manager, answers.id, answers.email, answers.officeNum);
+        // Add to employee array
         employeeArray.push(emp);
-        // console.log(employeeArray);
-        // const returnedObj = render(employeeArray);
-        // console.log(returnedObj);
+        // To confirm if user wants to add another employee.
         askToAddAnother();
-
-
     } catch (err) {
         console.log(err);
     }
-
 }
 
 async function getEmpDetails() {
     try {
         const answers = await inquirer.prompt(typeQ);
-
+        // Different set of questions depending on employer role
         if (answers.type === "Engineer") {
             const answers = await inquirer.prompt(engineerQuestions);
+            // Create instance of the Engineer class
             let emp = new Engineer(answers.name, answers.id, answers.email, answers.gitHub);
+            // Add to employee array
             employeeArray.push(emp);
-            // let emp = new Manager(answers.manager, answers.id, answers.email, answers.officeNum);
-            // employeeArray.push(emp);
         } else {
             const answers = await inquirer.prompt(internQuestions);
+            // Create instance of the Intern class
             let emp = new Intern(answers.name, answers.id, answers.email, answers.school);
+            // Add to employee array
             employeeArray.push(emp);
         }
-
+        // Confirm if user wants to add another employee
         askToAddAnother();
-
-
-
     } catch (err) {
         console.log(err);
     }
 }
 
+// Function to handle when to stop asking for more employee details
 async function askToAddAnother() {
     inquirer
         .prompt([
@@ -114,43 +110,42 @@ async function askToAddAnother() {
             }
         ])
         .then(val => {
-
             if (val.choice) {
+                // Gets more user input for another employee
                 getEmpDetails();
             } else {
+                // End the user input and continue to generate the file
                 quit();
             }
         });
 }
 
 function quit() {
-    console.log("\nGoodbye!");
-    console.log(employeeArray);
-    // process.exit(0);
-
+    // Get the HTML based on the array of employees
+    const returnedHTML = render(employeeArray);
+    // Call function to write the html file
+    fileWrite(returnedHTML);
 }
 
+async function fileWrite(returnedHTML) {
+    try {
+        // Check if "output" directory exists
+        ensureDirectoryExistence(outputPath);
+        // Create the html file
+        await writeFileAsync(outputPath, returnedHTML);
+        console.log("Successfully created a HTML file located in the 'output' folder!");
+        console.log("Thank you for using the team generator CLI!");
+    } catch (err) {
+        console.log(err);
+    }
+}
 
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-
-
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+// Checks if the "output" directory exists and creates it if it doesn't.
+function ensureDirectoryExistence(filePath) {
+    let dirname = path.dirname(filePath);
+    if (fs.existsSync(dirname)) {
+        return true;
+    }
+    ensureDirectoryExistence(dirname);
+    fs.mkdirSync(dirname);
+}
