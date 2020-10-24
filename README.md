@@ -28,7 +28,7 @@ This is a Node CLI which will take user input to generate a display of all membe
 <p>Find the link to the video demo here: (https://drive.google.com/file/d/18PAKvcZMJHcX_z8VWES8wVtvdfkRaUel/view)</p>
 
 ## Sample
-<p>Find the link to the sample output here. HTML: (https://#/) CSS: (https://#/)</p>
+<p>Find the link to the sample output here. HTML: (https://github.com/bevhatzl/team-generator/blob/main/output/team.html) CSS: (https://github.com/bevhatzl/team-generator/blob/main/output/style.css)</p>
 
 ## Tests
 ![Screenshot of jest test passing](/media/testpic.png)
