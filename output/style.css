@@ -1,0 +1,37 @@
+.jumbotron {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+h1 {
+    font-size: 48px;
+    font-weight: bold;
+}
+
+h2, h3 {
+    text-align: center;
+}
+
+h2 {
+    font-weight: bold; 
+}
+
+.employee-card  {
+    margin: 10px;
+    flex-basis: 350px;
+    box-shadow: 10px 10px 0 0 grey;
+}
+
+.card-header {
+    background-color: #0066ff;
+    color: white;
+}
+
+.card-area {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10%;
+    margin-right: 10%;
+    flex-wrap: wrap;
+    justify-content: center;
+}

@@ -25,7 +25,7 @@ This is a Node CLI which will take user input to generate a display of all membe
 ![Screenshot of generated team displayed in browser](/media/image2.png)
 
 ## Video
-<p>Find the link to the video demo here: (https://#/)</p>
+<p>Find the link to the video demo here: (https://drive.google.com/file/d/18PAKvcZMJHcX_z8VWES8wVtvdfkRaUel/view)</p>
 
 ## Sample
 <p>Find the link to the sample output here. HTML: (https://#/) CSS: (https://#/)</p>
