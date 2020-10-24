@@ -3,10 +3,9 @@
     color: white;
 }
 
-.employee-card {
+.employee-card  {
     margin: 10px;
-    min-width: 30%;
-
+    flex-basis: 350px;
 }
 
 .card-header {
@@ -14,12 +13,11 @@
     color: white;
 }
 
- .container {
- /* max-width: 50%; */
-  max-width: 80%;
- /* width: 50%; */
- border-right: 1px solid #000;
- border-left: 1px solid #000;
- 
-
-} 
+.card-area {
+    display: flex;
+    flex-direction: row;
+    margin-left: 10%;
+    margin-right: 10%;
+    flex-wrap: wrap;
+    justify-content: center;
+}
